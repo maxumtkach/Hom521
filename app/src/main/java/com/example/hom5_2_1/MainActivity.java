@@ -20,6 +20,10 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOGIN_FILE_NAME = "login_text";
+    private static final String PASS_FILE_NAME = "pass_text";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,91 +34,71 @@ public class MainActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.btn_login);
         Button registrationButton = findViewById(R.id.btn_registration);
 
-        registrationButton.setOnClickListener(new View.OnClickListener() {
+        registrationButton.setOnClickListener(new View.OnClickListener() {  //сохраняем файл
             @Override
             public void onClick(View v) {
                 String loginStr = loginTextView.getText().toString();
                 String passwordStr = passwordTextView.getText().toString();
 
-                FileOutputStream fisLog = null;
-                FileOutputStream fisPass = null;
-                if (loginStr.equals("") && passwordStr.equals("")) {
-                    Toast.makeText(MainActivity.this, "Вы ничего не ввели", Toast.LENGTH_LONG).show();
+                if (loginStr.equals("") || passwordStr.equals("")) {
+                    Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
                 } else {
-                    try {
-                        fisLog = openFileOutput("login_text", Context.MODE_PRIVATE);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fisLog);
-                    BufferedWriter bw = new BufferedWriter(outputStreamWriter);
-                    try {
-                        bw.write(loginStr);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        bw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                    try {
-                        fisPass = openFileOutput("pass_text", Context.MODE_PRIVATE);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    OutputStreamWriter outputStreamWriterPass = new OutputStreamWriter(fisPass);
-                    BufferedWriter bwPass = new BufferedWriter(outputStreamWriterPass);
-                    try {
-                        bwPass.write(passwordStr);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        bwPass.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    saveData(LOGIN_FILE_NAME, loginStr);
+                    saveData(PASS_FILE_NAME, passwordStr);
                 }
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {   //читаем файл
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //--------------------------------------------------------------
 
-                FileInputStream fileInputStreamLog = null;
-                FileInputStream fileInputStreamPass = null;
-                String strLogin = null;
-                String strPassword = null;
-                try {
-                    fileInputStreamLog = openFileInput("login_text");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                InputStreamReader inputStreamReaderLog = new InputStreamReader(fileInputStreamLog);
-                BufferedReader readerLog = new BufferedReader(inputStreamReaderLog);
-                try {
-                    strLogin = readerLog.readLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    fileInputStreamPass = openFileInput("pass_text");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                InputStreamReader inputStreamReaderPass = new InputStreamReader(fileInputStreamPass);
-                BufferedReader readerPass = new BufferedReader(inputStreamReaderPass);
-                try {
-                    strPassword = readerPass.readLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(MainActivity.this, "Ваш лгин: " + strLogin + '\n' + "Ваш пароль: " + strPassword, Toast.LENGTH_LONG).show();
+                readLineFromFile(LOGIN_FILE_NAME);
+                readLineFromFile(PASS_FILE_NAME);
             }
         });
+    }
+
+    private String readLineFromFile(String fileName) {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(fileName);
+            final InputStreamReader streamReader = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(streamReader);
+            Toast.makeText(MainActivity.this,(R.string.read_text) , Toast.LENGTH_LONG).show();
+
+            return br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveData(String fileName, String text) {
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(fileName, MODE_PRIVATE);
+            fos.write(text.getBytes());
+            Toast.makeText(MainActivity.this, (R.string.save_text), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

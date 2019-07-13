@@ -3,4 +3,9 @@
     <string name="login">login</string>
     <string name="password">password</string>
     <string name="registration">registration</string>
+    <string name="login_your">Ваш логин:</string>
+    <string name="pass_your">Ваш пароль:</string>
+    <string name="nou_pass_nou_login">Вы ничего не ввели</string>
+    <string name="read_text">read</string>
+    <string name="save_text">save</string>
 </resources>
