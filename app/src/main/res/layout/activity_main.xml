@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_dark"
     tools:context=".MainActivity">
 
     <EditText
@@ -13,13 +14,12 @@
         android:layout_margin="16dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray"
-        android:padding="8dp"
         android:hint="@string/login"
+        android:padding="8dp"
         android:textSize="@dimen/size_32"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <EditText
         android:id="@+id/password"
@@ -27,40 +27,38 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@android:color/darker_gray"
+        android:hint="@string/password"
+        android:inputType="textPassword"
         android:padding="8dp"
         android:textSize="@dimen/size_32"
-        android:hint="@string/password"
-        app:layout_constraintTop_toBottomOf="@+id/login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:background="@android:color/holo_green_light"
         android:padding="8dp"
-        android:layout_margin="16dp"
-        android:textSize="@dimen/size_32"
         android:text="@string/login"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        android:textSize="@dimen/size_32"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/btn_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:background="@android:color/holo_red_dark"
         android:padding="8dp"
-        android:layout_margin="16dp"
-        android:textSize="@dimen/size_32"
         android:text="@string/registration"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login"
+        android:textSize="@dimen/size_32"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

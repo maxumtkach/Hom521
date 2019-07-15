@@ -2,71 +2,91 @@ package com.example.hom5_2_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOGIN_FILE_NAME = "login_text";
     private static final String PASS_FILE_NAME = "pass_text";
-
+    String loginStr;
+    String passwordStr;
+    String loginReturn = null;
+    String passReturn = null;
+    Editable loginEditable;
+    Editable passEditable;
+    EditText loginTextView;
+    EditText passwordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText loginTextView = findViewById(R.id.login);
-        final EditText passwordTextView = findViewById(R.id.password);
+        loginTextView = findViewById(R.id.login);
+        passwordTextView = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.btn_login);
         Button registrationButton = findViewById(R.id.btn_registration);
+        loginEditable = loginTextView.getText();
+        passEditable = passwordTextView.getText();
 
-        registrationButton.setOnClickListener(new View.OnClickListener() {  //сохраняем файл
+
+        registrationButton.setOnClickListener(new View.OnClickListener() {  // onclick  сохраняем файл
             @Override
             public void onClick(View v) {
-                String loginStr = loginTextView.getText().toString();
-                String passwordStr = passwordTextView.getText().toString();
 
-                if (loginStr.equals("") || passwordStr.equals("")) {
+                loginStr = loginTextView.getText().toString();
+                passwordStr = passwordTextView.getText().toString();
+
+                if (TextUtils.isEmpty(loginStr) || TextUtils.isEmpty(passwordStr)) {
                     Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
                 } else {
 
-                    saveData(LOGIN_FILE_NAME, loginStr);
+                    saveData(LOGIN_FILE_NAME, loginStr);  ///сохраняем файл
                     saveData(PASS_FILE_NAME, passwordStr);
                 }
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {   //читаем файл
+        loginButton.setOnClickListener(new View.OnClickListener() {   // onclick читаем файл
             @Override
             public void onClick(View v) { //--------------------------------------------------------------
 
-                readLineFromFile(LOGIN_FILE_NAME);
-                readLineFromFile(PASS_FILE_NAME);
+                if (TextUtils.isEmpty(loginStr) || TextUtils.isEmpty(passwordStr)) {
+                    Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
+                } else {
+                    loginReturn = readLineFromFile(LOGIN_FILE_NAME);   //читаем файл
+                    passReturn = readLineFromFile(PASS_FILE_NAME);
+                }
+                if (loginEditable.toString().equals(loginReturn) && passEditable.toString().equals(passReturn)) {
+                    Toast.makeText(MainActivity.this, "доступ", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "нет доступа",Toast.LENGTH_LONG).show();
+
+                }
             }
         });
     }
 
     private String readLineFromFile(String fileName) {
+
         FileInputStream fis = null;
         try {
             fis = openFileInput(fileName);
             final InputStreamReader streamReader = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(streamReader);
-            Toast.makeText(MainActivity.this,(R.string.read_text) , Toast.LENGTH_LONG).show();
 
             return br.readLine();
         } catch (IOException e) {
@@ -84,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveData(String fileName, String text) {
+
         FileOutputStream fos = null;
         try {
             fos = openFileOutput(fileName, MODE_PRIVATE);
             fos.write(text.getBytes());
-            Toast.makeText(MainActivity.this, (R.string.save_text), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

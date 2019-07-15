@@ -6,6 +6,7 @@
     <string name="login_your">Ваш логин:</string>
     <string name="pass_your">Ваш пароль:</string>
     <string name="nou_pass_nou_login">Вы ничего не ввели</string>
-    <string name="read_text">read</string>
-    <string name="save_text">save</string>
+    <string name="repeat_input">Введите еще раз пароль и логин</string>
+    <string name="pass_log_ok">верный пароль и логин</string>
+    <string name="false_pass_log">не верный пароль и логин</string>
 </resources>
