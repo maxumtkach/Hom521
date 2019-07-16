@@ -9,4 +9,6 @@
     <string name="repeat_input">Введите еще раз пароль и логин</string>
     <string name="pass_log_ok">верный пароль и логин</string>
     <string name="false_pass_log">не верный пароль и логин</string>
+    <string name="access">доступ</string>
+    <string name="no_access">нет доступа</string>
 </resources>

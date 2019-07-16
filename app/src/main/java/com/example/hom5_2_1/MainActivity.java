@@ -20,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOGIN_FILE_NAME = "login_text";
     private static final String PASS_FILE_NAME = "pass_text";
-    String loginStr;
-    String passwordStr;
-    String loginReturn = null;
-    String passReturn = null;
-    Editable loginEditable;
-    Editable passEditable;
-    EditText loginTextView;
-    EditText passwordTextView;
+    private String loginStr;
+    private String passwordStr;
+    private String loginReturn = null;
+    private String passReturn = null;
+    private Editable loginEditable;
+    private Editable passEditable;
+    private EditText loginTextView;
+    private EditText passwordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
                     passReturn = readLineFromFile(PASS_FILE_NAME);
                 }
                 if (loginEditable.toString().equals(loginReturn) && passEditable.toString().equals(passReturn)) {
-                    Toast.makeText(MainActivity.this, "доступ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, (R.string.access), Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(MainActivity.this, "нет доступа",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, (R.string.no_access), Toast.LENGTH_LONG).show();
 
                 }
             }
