@@ -18,12 +18,8 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOGIN_FILE_NAME = "login_text";
-    private static final String PASS_FILE_NAME = "pass_text";
-    private String loginStr;
-    private String passwordStr;
-    private String loginReturn = null;
-    private String passReturn = null;
+    private static final String LOGIN_FILE_NAME = "login text";
+    private static final String PASS_FILE_NAME = "pass text";
     private Editable loginEditable;
     private Editable passEditable;
     private EditText loginTextView;
@@ -41,13 +37,12 @@ public class MainActivity extends AppCompatActivity {
         loginEditable = loginTextView.getText();
         passEditable = passwordTextView.getText();
 
-
         registrationButton.setOnClickListener(new View.OnClickListener() {  // onclick  сохраняем файл
             @Override
             public void onClick(View v) {
 
-                loginStr = loginTextView.getText().toString();
-                passwordStr = passwordTextView.getText().toString();
+                String loginStr = loginTextView.getText().toString();
+                String passwordStr = passwordTextView.getText().toString();
 
                 if (TextUtils.isEmpty(loginStr) || TextUtils.isEmpty(passwordStr)) {
                     Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
@@ -62,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {   // onclick читаем файл
             @Override
             public void onClick(View v) { //--------------------------------------------------------------
+
+                String loginReturn = null;
+                String passReturn = null;
+                String loginStr = loginTextView.getText().toString();
+                String passwordStr = passwordTextView.getText().toString();
 
                 if (TextUtils.isEmpty(loginStr) || TextUtils.isEmpty(passwordStr)) {
                     Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String readLineFromFile(String fileName) {
+    private String readLineFromFile(String fileName) {  // ф-я чтения
 
         FileInputStream fis = null;
         try {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void saveData(String fileName, String text) {
+    private void saveData(String fileName, String text) {   // ф-я записи
 
         FileOutputStream fos = null;
         try {
