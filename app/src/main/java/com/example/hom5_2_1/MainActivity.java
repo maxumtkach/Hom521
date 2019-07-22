@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOGIN_FILE_NAME = "login text";
     private static final String PASS_FILE_NAME = "pass text";
-    private Editable loginEditable;
-    private Editable passEditable;
     private EditText loginTextView;
     private EditText passwordTextView;
 
@@ -34,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         passwordTextView = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.btn_login);
         Button registrationButton = findViewById(R.id.btn_registration);
-        loginEditable = loginTextView.getText();
-        passEditable = passwordTextView.getText();
 
         registrationButton.setOnClickListener(new View.OnClickListener() {  // onclick  сохраняем файл
             @Override
@@ -50,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
                     saveData(LOGIN_FILE_NAME, loginStr);  ///сохраняем файл
                     saveData(PASS_FILE_NAME, passwordStr);
+
+                    Toast.makeText(MainActivity.this, getString(R.string.login_password_save), Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -58,27 +57,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { //--------------------------------------------------------------
 
-                String loginReturn = null;
-                String passReturn = null;
                 String loginStr = loginTextView.getText().toString();
                 String passwordStr = passwordTextView.getText().toString();
 
                 if (TextUtils.isEmpty(loginStr) || TextUtils.isEmpty(passwordStr)) {
                     Toast.makeText(MainActivity.this, (R.string.nou_pass_nou_login), Toast.LENGTH_LONG).show();
                 } else {
-                    loginReturn = readLineFromFile(LOGIN_FILE_NAME);   //читаем файл
-                    passReturn = readLineFromFile(PASS_FILE_NAME);
-                }
-                if (loginEditable.toString().equals(loginReturn) && passEditable.toString().equals(passReturn)) {
-                    Toast.makeText(MainActivity.this, (R.string.access), Toast.LENGTH_LONG).show();
+                    String savedLogin = readLineFromFile(LOGIN_FILE_NAME);   //читаем файл
+                    String savedPassword = readLineFromFile(PASS_FILE_NAME);
+                    final boolean loginEquals = loginTextView.getText().toString().equals(savedLogin);
+                    final boolean passwordEquals = passwordTextView.getText().toString().equals(savedPassword);
+                    if (loginEquals && passwordEquals) {
 
-                } else {
-                    Toast.makeText(MainActivity.this, (R.string.no_access), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, (R.string.access), Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(MainActivity.this, (R.string.no_access), Toast.LENGTH_LONG).show();
+
+                    }
 
                 }
             }
         });
     }
+
 
     private String readLineFromFile(String fileName) {  // ф-я чтения
 

@@ -11,4 +11,5 @@
     <string name="false_pass_log">не верный пароль и логин</string>
     <string name="access">доступ</string>
     <string name="no_access">нет доступа</string>
+    <string name="login_password_save">Пароль и логин  сохранены</string>
 </resources>
